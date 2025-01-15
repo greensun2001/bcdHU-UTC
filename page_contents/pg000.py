@@ -30,7 +30,7 @@ def pg000_f00(conc: Conc_AI):
             df: pd.DataFrame = AI_Calculate.calStress_w_delta(
                 conc=conc, ws=ws, deltas=deltas
             )
-            st.success(f"  For w in {list(np.round(ws,2))}")
+            st.success(f"  For w in {np.round(ws,2).tolist()}")
 
         st.divider()
 
