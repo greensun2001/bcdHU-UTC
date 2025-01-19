@@ -132,6 +132,14 @@ def check_password():
 st.set_page_config(
     page_title="HU-UTC Shear Program",
 )
+hide_github_icon = """
+<style>
+    .stToolbarActionButton {
+    visibility: hidden;
+    }
+</style>  
+"""
+st.markdown(hide_github_icon, unsafe_allow_html=True)
 
 if not check_password():
     st.stop()
