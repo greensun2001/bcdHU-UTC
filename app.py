@@ -129,6 +129,10 @@ def check_password():
     return False
 
 
+st.set_page_config(
+    page_title="HU-UTC Shear Program",
+)
+
 if not check_password():
     st.stop()
 
