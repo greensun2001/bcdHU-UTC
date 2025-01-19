@@ -1,3 +1,4 @@
+import hmac
 import streamlit as st
 import page_contents.pg000 as pg000
 import page_contents.pg001 as pg001
@@ -85,6 +86,51 @@ def feature03():
     st.write("")
     pg003.pg003_f00()
 
+
+def check_password():
+    """Returns `True` if the user had a correct password."""
+
+    def login_form():
+        """Form with widgets to collect user information"""
+        col1, col2 = st.columns(2)
+        with col1:
+            logo_image = "images/hu_utc.png"
+            st.image(logo_image, use_column_width=False)
+        with col2:
+            st.write("# :rainbow[Shear program]")
+        st.write("")
+        with st.form("Credentials"):
+            st.text_input("Username", key="username")
+            st.text_input("Password", type="password", key="password")
+            st.form_submit_button("Log in", on_click=password_entered)
+
+    def password_entered():
+        """Checks whether a password entered by the user is correct."""
+        if st.session_state["username"] in st.secrets[
+            "passwords"
+        ] and hmac.compare_digest(
+            st.session_state["password"],
+            st.secrets.passwords[st.session_state["username"]],
+        ):
+            st.session_state["password_correct"] = True
+            del st.session_state["password"]  # Don't store the username or password.
+            del st.session_state["username"]
+        else:
+            st.session_state["password_correct"] = False
+
+    # Return True if the username + password is validated.
+    if st.session_state.get("password_correct", False):
+        return True
+
+    # Show inputs for username + password.
+    login_form()
+    if "password_correct" in st.session_state:
+        st.error("😕 User not known or password incorrect")
+    return False
+
+
+if not check_password():
+    st.stop()
 
 # SIDEBAR
 # . LOGO
